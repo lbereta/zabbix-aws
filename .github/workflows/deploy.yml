@@ -34,3 +34,5 @@ jobs:
 
       - name: Apply Terraform
         run: terraform -chdir=terraform apply -auto-approve
+        env:
+          TF_VAR_zabbix_public_key: ${{ secrets.ZABBIX_PUBLIC_KEY }}
