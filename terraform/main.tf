@@ -4,7 +4,7 @@ provider "aws" {
 
 resource "aws_key_pair" "zabbix_key" {
   key_name   = "zabbix-key"
-  public_key = file("~/.ssh/id_rsa.pub")
+  public_key = var.zabbix_public_key
 }
 
 resource "aws_security_group" "zabbix_sg" {
