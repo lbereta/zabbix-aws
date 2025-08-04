@@ -1,9 +1,7 @@
 name: Deploy Zabbix AWS
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   terraform:
