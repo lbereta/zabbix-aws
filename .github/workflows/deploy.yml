@@ -30,11 +30,9 @@ jobs:
       - name: Terraform Init
         run: terraform -chdir=terraform init
 
-      # Importa keypair e security group se existirem (ignora erro se não existirem)
       - name: Terraform Import Key Pair
         run: |
           terraform -chdir=terraform import aws_key_pair.zabbix_key zabbix-key || echo "Key pair já importada ou não existe"
-          # Troque o sg-xxxxxxxxxxxx pelo real
           terraform -chdir=terraform import aws_security_group.zabbix_sg sg-xxxxxxxxxxxx || echo "SG já importado ou não existe"
         env:
           TF_VAR_zabbix_public_key: ${{ secrets.ZABBIX_PUBLIC_KEY }}
