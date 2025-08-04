@@ -36,6 +36,8 @@ jobs:
           terraform -chdir=terraform import aws_key_pair.zabbix_key zabbix-key || echo "Key pair já importada ou não existe"
           # Troque o sg-xxxxxxxxxxxx pelo real
           terraform -chdir=terraform import aws_security_group.zabbix_sg sg-xxxxxxxxxxxx || echo "SG já importado ou não existe"
+        env:
+          TF_VAR_zabbix_public_key: ${{ secrets.ZABBIX_PUBLIC_KEY }}
 
       - name: Terraform Apply
         run: terraform -chdir=terraform apply -auto-approve
@@ -43,7 +45,7 @@ jobs:
           TF_VAR_zabbix_public_key: ${{ secrets.ZABBIX_PUBLIC_KEY }}
 
       - name: Upload Terraform State
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: terraform-state
           path: |

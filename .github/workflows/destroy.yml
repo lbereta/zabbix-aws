@@ -22,7 +22,7 @@ jobs:
           terraform_version: 1.5.0
 
       - name: Download Terraform State
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: terraform-state
           path: terraform/
