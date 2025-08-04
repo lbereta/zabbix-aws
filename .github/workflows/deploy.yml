@@ -43,7 +43,7 @@ jobs:
           TF_VAR_zabbix_public_key: ${{ secrets.ZABBIX_PUBLIC_KEY }}
 
       - name: Upload Terraform State
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: terraform-state
           path: |
