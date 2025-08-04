@@ -1,0 +1,21 @@
+```gitignore
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.backup
+.crash
+.terraform.lock.hcl
+
+# SSH keys
+*.pem
+*.key
+*.pub
+
+# Logs
+*.log
+
+# Editor configs
+.vscode/
+.idea/
+.DS_Store
