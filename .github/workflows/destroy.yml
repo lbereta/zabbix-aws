@@ -1,4 +1,4 @@
-name: Destroy Zabbix Infra
+name: Destroy Zabbix AWS
 
 on:
   workflow_dispatch:
@@ -13,11 +13,19 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     steps:
-      - name: Checkout
+      - name: Checkout código
         uses: actions/checkout@v3
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.5.0
+
+      - name: Download Terraform State
+        uses: actions/download-artifact@v3
+        with:
+          name: terraform-state
+          path: terraform/
 
       - name: Terraform Init
         run: terraform -chdir=terraform init
@@ -26,3 +34,6 @@ jobs:
         run: terraform -chdir=terraform destroy -auto-approve
         env:
           TF_VAR_zabbix_public_key: ${{ secrets.ZABBIX_PUBLIC_KEY }}
+
+      - name: Remove Terraform State Artifact (limpeza)
+        run: rm -rf terraform/terraform.tfstate terraform/terraform.tfstate.backup terraform/.terraform/

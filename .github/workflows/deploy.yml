@@ -23,14 +23,30 @@ jobs:
         run: echo "${{ secrets.ZABBIX_PUBLIC_KEY }}" > terraform/zabbix.pub
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: 1.5.0
 
-      - name: Init Terraform
+      - name: Terraform Init
         run: terraform -chdir=terraform init
 
-      - name: Apply Terraform
+      # Importa keypair e security group se existirem (ignora erro se não existirem)
+      - name: Terraform Import Key Pair
+        run: |
+          terraform -chdir=terraform import aws_key_pair.zabbix_key zabbix-key || echo "Key pair já importada ou não existe"
+          # Troque o sg-xxxxxxxxxxxx pelo real
+          terraform -chdir=terraform import aws_security_group.zabbix_sg sg-xxxxxxxxxxxx || echo "SG já importado ou não existe"
+
+      - name: Terraform Apply
         run: terraform -chdir=terraform apply -auto-approve
         env:
           TF_VAR_zabbix_public_key: ${{ secrets.ZABBIX_PUBLIC_KEY }}
+
+      - name: Upload Terraform State
+        uses: actions/upload-artifact@v3
+        with:
+          name: terraform-state
+          path: |
+            terraform/terraform.tfstate
+            terraform/terraform.tfstate.backup
+            terraform/.terraform/
