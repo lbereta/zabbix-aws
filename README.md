@@ -48,7 +48,7 @@ cd zabbix-terraform-aws
 | `ZABBIX_PUBLIC_KEY`     | conteúdo da sua chave SSH pública (id\_rsa.pub) |
 ```
 
-### 3. Faça o push
+### 3. Acesse os Workflows do repositório e rode o "Deploy Zabbix AWS"
 
 O GitHub Actions vai iniciar o deploy automaticamente via pipeline.
 
